@@ -15,7 +15,6 @@ class Game
   	choose_word
     $cur_guess = Array.new($word.size)
     #$word.size.times {|i|$cur_guess[i] = nil }
-    $lives_remaining = $TOTAL_LIVES
     $guessed = Array.new
   	game_loop
   end
@@ -29,9 +28,6 @@ class Game
     (0 ... $word.size).each{|i| $cur_guess[i] = $word[i] if $word[i] == char}
   end
 
-  def decrease_lives
-    $lives_remaining -= 1
-  end
 
   def check_guess (guess)
     if $guessed.include? guess
@@ -45,8 +41,6 @@ class Game
       return make_guess
     elsif $word.include? guess
       update_guess guess
-    else
-      decrease_lives
     end
     $guessed.push guess
     return guess
@@ -57,14 +51,18 @@ class Game
   end
 
   def check_lose?
-    $lives_remaining == 0
+    lives_remaining == 0
+  end
+
+  def lives_remaining
+    $TOTAL_LIVES - $guessed.count{|x|!$word.include? x}
   end
 
 
 
   def game_loop
   	while true do 
-      $io_controller.status($cur_guess, $lives_remaining)
+      $io_controller.status($cur_guess, lives_remaining)
       
       make_guess
       break if check_lose?
