@@ -32,12 +32,14 @@ class ConsoleIO
     puts "Enter new guess: "
   end
 
-  def win
+  def win(word)
     puts "You win!"
+    puts "The word was "<<word
   end
 
-  def lose
+  def lose(word)
     puts "You lose!"
+    puts "The word was "<<word
   end
   def get
 

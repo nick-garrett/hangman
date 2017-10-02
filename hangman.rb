@@ -71,17 +71,18 @@ class Game
       break if check_win?
   	end
     if check_win?
-      $io_controller.win 
+      $io_controller.win($word)
     else
-      $io_controller.lose
+      $io_controller.lose($word)
+      puts $word
     end
     new_game if $io_controller.new_game?
   end
 
 
   def choose_word
-  	$word = $words[rand($words.size)]
-  	#puts $word
+  	$word = $words[rand($words.size)].chomp
+
   end
 end
 
