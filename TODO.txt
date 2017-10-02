@@ -1,5 +1,5 @@
 To be completed:
  --> rspec???? need to do some research on how to do this
- --> display letters guessed that are incorrect ????? 
+ --> display letters guessed that are incorrect --- displays all guessed letters, should I change this??
  --> do some more research on File vs IO and each/foreach methods to find the best one
  --> make input NOT case sensitive

@@ -59,7 +59,7 @@ class Game
 
   def game_loop
   	while true do 
-      $io_controller.status(cur_guess, lives_remaining)
+      $io_controller.status(cur_guess, lives_remaining, $guessed)
       
       make_guess
       break if check_lose?

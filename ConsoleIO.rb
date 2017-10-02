@@ -8,12 +8,15 @@ class ConsoleIO
     return get == "y"
   end
 
-  def status (cur, lives)
+  def status (cur, lives, guessed)
     puts "Current guess: "
     cur.each{|x|print x==nil ? "_" : x}
     puts ""
     puts "Lives remaining: "
     puts lives
+    puts "Letters guessed: "
+    guessed.each{|x| print x + " " unless x == nil}
+    puts ""
 
   end
 
