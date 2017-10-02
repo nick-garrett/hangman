@@ -13,8 +13,8 @@ class Game
     $io_controller = ConsoleIO.new
     $io_controller.new_game 
   	choose_word
-    $cur_guess = ""
-    $word.size.times {$cur_guess << "_"}
+    $cur_guess = Array.new($word.size)
+    #$word.size.times {|i|$cur_guess[i] = nil }
     $lives_remaining = $TOTAL_LIVES
     $guessed = Array.new
   	game_loop
@@ -53,7 +53,7 @@ class Game
   end
 
   def check_win?
-    !$cur_guess.include? "_"
+    !$cur_guess.include? nil
   end
 
   def check_lose?

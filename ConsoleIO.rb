@@ -10,7 +10,8 @@ class ConsoleIO
 
   def status (cur, lives)
     puts "Current guess: "
-    puts cur
+    cur.each{|x|print x==nil ? "_" : x}
+    puts ""
     puts "Lives remaining: "
     puts lives
 
