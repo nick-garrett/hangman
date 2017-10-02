@@ -18,8 +18,8 @@ class Game
   end
 
   def make_guess
-    $io_controller.enter_guess 
-    check_guess ($io_controller.get)
+    $io_controller.enter_guess
+    check_guess ($io_controller.get.downcase)
   end
 
   def check_guess (guess)
