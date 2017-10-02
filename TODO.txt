@@ -1,7 +1,5 @@
 To be completed:
  --> rspec???? need to do some research on how to do this
  --> display letters guessed that are incorrect ????? 
- --> change lives to a calculation from the word and guessed letters rather than a variable ????
- --> change cur_guess to be worked out in a method each time from the word and guessed letters rather than a variable ????
  --> do some more research on File vs IO and each/foreach methods to find the best one
  --> make input NOT case sensitive

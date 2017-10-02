@@ -13,8 +13,6 @@ class Game
     $io_controller = ConsoleIO.new
     $io_controller.new_game 
   	choose_word
-    $cur_guess = Array.new($word.size)
-    #$word.size.times {|i|$cur_guess[i] = nil }
     $guessed = Array.new
   	game_loop
   end
@@ -23,11 +21,6 @@ class Game
     $io_controller.enter_guess 
     check_guess ($io_controller.get)
   end
-
-  def update_guess (char)
-    (0 ... $word.size).each{|i| $cur_guess[i] = $word[i] if $word[i] == char}
-  end
-
 
   def check_guess (guess)
     if $guessed.include? guess
@@ -39,15 +32,13 @@ class Game
     elsif !guess.match(/^[[:alpha:]]$/)
       $io_controller.non_alpha
       return make_guess
-    elsif $word.include? guess
-      update_guess guess
     end
     $guessed.push guess
     return guess
   end
 
   def check_win?
-    !$cur_guess.include? nil
+    !cur_guess.include? nil
   end
 
   def check_lose?
@@ -58,11 +49,17 @@ class Game
     $TOTAL_LIVES - $guessed.count{|x|!$word.include? x}
   end
 
+  def cur_guess
+    to_return = Array.new($word.size)
+    (0 .. $word.size).each{|i| to_return[i] = $word[i] if $guessed.include? $word[i]}
+    to_return
+  end
+
 
 
   def game_loop
   	while true do 
-      $io_controller.status($cur_guess, lives_remaining)
+      $io_controller.status(cur_guess, lives_remaining)
       
       make_guess
       break if check_lose?
