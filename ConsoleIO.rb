@@ -24,6 +24,10 @@ class ConsoleIO
     puts "Please only input one letter, try again"
   end
 
+  def non_alpha
+    puts "Please only input letters"
+  end
+
   def enter_guess
     puts "Enter new guess: "
   end

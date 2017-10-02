@@ -40,6 +40,9 @@ class Game
     elsif guess.size > 1
       $io_controller.mult_letter 
       return make_guess
+    elsif !guess.match(/^[[:alpha:]]$/)
+      $io_controller.non_alpha
+      return make_guess
     elsif $word.include? guess
       update_guess guess
     else
