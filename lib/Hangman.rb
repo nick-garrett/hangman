@@ -20,11 +20,11 @@ class Hangman
     return ""
   end
 
-  def check_win?
+  def win?
     !(cur_guess.include? nil)
   end
 
-  def check_lose?
+  def lose?
     lives_remaining == 0
   end
 

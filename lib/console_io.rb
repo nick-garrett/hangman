@@ -19,18 +19,6 @@ class ConsoleIO
     puts ""
   end
 
-  def already_guessed
-    puts "Already guessed, try again"
-  end
-
-  def mult_letter
-    puts "Please only input one letter, try again"
-  end
-
-  def non_alpha
-    puts "Please only input letters"
-  end
-
   def enter_guess
     puts "Enter new guess: "
   end
