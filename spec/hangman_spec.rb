@@ -1,35 +1,60 @@
 require_relative '../lib/hangman'
 require_relative '../lib/console_io'
+require_relative '../bin/play_hangman'
+
+# describe PlayHangman do
+# 	describe 'create_word_array' do
+# 		it 'should have 370101 elements' do
+# 			expect(PlayHangman.new.create_word_array.size).to eq 370101
+# 		end
+# 	end
+# 	describe 'random_word' do
+# 		it 'should choose the word "test"' do
+# 			words = [word]
+# 			w = h.random_word(words)
+# 			expect(w).to eq "test"
+# 		end
+
+# 		it "should strip newline character from the word" do
+# 			words = ["test\n"]
+# 			w = h.random_word(words)
+# 			expect(w.include? "\n").to eq false
+# 		end
+
+# 		it "should choose one of the words from the array" do
+# 			words = %w(one two three four)
+# 			word = h.random_word(words)
+# 			expect(words.include? word).to eq true
+# 		end
+# 	end
+# end
+
 describe Hangman do
-	let(:h) { Hangman.new() }
+	let(:h) { Hangman.new("test") }
 	let(:word) { "test"}
 
-	describe 'create_word_array' do
-		it 'should have 370101 elements' do
-			expect(h.create_word_array.size).to eq 370101
-		end
-	end
+
 
 	describe 'check_guess' do
 		it 'should not accept multiple characters' do
-			expect(h.check_guess "aa").to eq false
+			expect(h.check_guess "aa").not_to eq ""
 		end
 
 		it 'should not accept guesses already made' do
 			h.check_guess "a"
-			expect(h.check_guess "a").to eq false
+			expect(h.check_guess "a").not_to eq ""
 		end
 
 		it 'should not accept non-alphabetic guesses' do
-			expect(h.check_guess "1").to eq false
-			expect(h.check_guess "!").to eq false
-			expect(h.check_guess " ").to eq false
+			expect(h.check_guess "1").not_to eq ""
+			expect(h.check_guess "!").not_to eq ""
+			expect(h.check_guess " ").not_to eq ""
 		end
 
 		it 'should accept other guesses' do
-			expect(h.check_guess "a").to eq true
-			expect(h.check_guess "b").to eq true
-			expect(h.check_guess "c").to eq true
+			expect(h.check_guess "a").to eq ""
+			expect(h.check_guess "b").to eq ""
+			expect(h.check_guess "c").to eq ""
 		end
 	end
 
@@ -79,25 +104,7 @@ describe Hangman do
 		end
 	end
 
-	describe 'random_word' do
-		it 'should choose the word "test"' do
-			words = [word]
-			w = h.random_word(words)
-			expect(w).to eq "test"
-		end
-
-		it "should strip newline character from the word" do
-			words = ["test\n"]
-			w = h.random_word(words)
-			expect(w.include? "\n").to eq false
-		end
-
-		it "should choose one of the words from the array" do
-			words = %w(one two three four)
-			word = h.random_word(words)
-			expect(words.include? word).to eq true
-		end
-	end
+	
 
 	describe 'cur_guess' do
 		it 'should have nil elements at any point where the letter in the word is not in guessed' do

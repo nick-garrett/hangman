@@ -17,7 +17,6 @@ class ConsoleIO
     puts "Letters guessed: "
     guessed.each{|x| print x + " " unless x == nil}
     puts ""
-
   end
 
   def already_guessed
