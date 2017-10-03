@@ -39,11 +39,13 @@ class ConsoleIO
   def win(word)
     puts "You win!"
     puts "The word was "<<word
+    true
   end
 
   def lose(word)
     puts "You lose!"
     puts "The word was "<<word
+    true
   end
   def get
     gets.chomp
