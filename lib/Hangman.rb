@@ -1,22 +1,17 @@
 class Hangman
   attr_accessor :word, :guessed
-  attr_reader :io_controller
+  attr_reader :io_controller, :total_lives
 
   def initialize(word, lives = 10)
     @guessed = Array.new
     @word = word
-    @TOTAL_LIVES = lives
+    @total_lives = lives
   end
 
   def check_guess (guess)
-    if guessed.include? guess
-      return "Already guessed, try again"
-    elsif guess.size > 1
-      return "Please only input one letter, try again"
-    elsif !guess.match(/^[[:alpha:]]$/)
-      return "Please only input letters"
-    end
-    guessed.push guess
+    return "Already guessed, try again" if guessed.include? guess
+    return "Please only input one letter, try again" if guess.size > 1
+    return "Please only input letters" if !guess.match(/^[[:alpha:]]$/)
     return ""
   end
 
@@ -29,13 +24,13 @@ class Hangman
   end
 
   def lives_remaining
-    @TOTAL_LIVES - guessed.count{|x|!word.include? x}
+    total_lives - guessed.count{ |x| !word.include? x }
   end
 
   def cur_guess
-    to_return = Array.new(word.size)
-    (0 ... word.size).each{|i| to_return[i] = word[i] if guessed.include? word[i]}
-    to_return
+    guess_state = Array.new(word.size)
+    (0 ... word.size).each{ |i| guess_state[i] = word[i] if guessed.include? word[i] }
+    return guess_state
   end
 
 end
