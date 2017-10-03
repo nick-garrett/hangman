@@ -1,142 +1,106 @@
 require_relative '../lib/hangman'
-require_relative '../lib/console_io'
-require_relative '../lib/play_hangman'
-
-
-describe PlayHangman do
-	let(:p) {PlayHangman.new}
-	let(:word) { "test"}
-
-	describe 'create_word_array' do
-		it 'should have 370101 elements' do
-			expect(p.create_word_array.size).to eq 370101
-		end
-	end
-	describe 'random_word' do
-		it 'should choose the word "test"' do
-			words = [word]
-			w = p.random_word(words)
-			expect(w).to eq "test"
-		end
-
-		it "should strip newline character from the word" do
-			words = ["test\n"]
-			w = p.random_word(words)
-			expect(w.include? "\n").to eq false
-		end
-
-		it "should choose one of the words from the array" do
-			words = %w(one two three four)
-			word = p.random_word(words)
-			expect(words.include? word).to eq true
-		end
-	end
-end
 
 describe Hangman do
-	let(:h) { Hangman.new("test") }
+	let(:hangman) { Hangman.new("test") }
 	let(:word) { "test"}
 	before(:each) do
-			h.word = word 
+			hangman.word = word 
 		end
 
 
 	describe 'check_guess' do
 		it 'should not accept multiple characters' do
-			expect(h.check_guess "aa").not_to eq ""
+			expect(hangman.check_guess "aa").not_to eq ""
 		end
 
 		it 'should not accept guesses already made' do
-			h.check_guess "a"
-			expect(h.check_guess "a").not_to eq ""
+			hangman.check_guess "a"
+			expect(hangman.check_guess "a").not_to eq ""
 		end
 
 		it 'should not accept non-alphabetic guesses' do
-			expect(h.check_guess "1").not_to eq ""
-			expect(h.check_guess "!").not_to eq ""
-			expect(h.check_guess " ").not_to eq ""
+			expect(hangman.check_guess "1").not_to eq ""
+			expect(hangman.check_guess "!").not_to eq ""
+			expect(hangman.check_guess " ").not_to eq ""
 		end
 
 		it 'should accept other guesses' do
-			expect(h.check_guess "a").to eq ""
-			expect(h.check_guess "b").to eq ""
-			expect(h.check_guess "c").to eq ""
+			expect(hangman.check_guess "a").to eq ""
+			expect(hangman.check_guess "b").to eq ""
+			expect(hangman.check_guess "c").to eq ""
 		end
 	end
 
 	describe 'win?' do
 		it 'should return true when all of the letters in the word are also in the guessed array' do
-			h.guessed = ["t", "e", "s"]
-			expect(h.win?).to eq true
+			hangman.guessed = ["t", "e", "s"]
+			expect(hangman.win?).to eq true
+			#be_truthy
+			#be_falsy
 		end
 
 		it 'should return false when some of the letters in the word are in the guessed array' do
-			h.guessed = ["t", "e"]
-			expect(h.win?).to eq false
+			hangman.guessed = ["t", "e"]
+			expect(hangman.win?).to eq false
 		end
 
 		it 'should return false when no letters in the word are in the guessed array' do
-			h.guessed = Array.new 
-			expect(h.win?).to eq false
+			hangman.guessed = Array.new 
+			expect(hangman.win?).to eq false
 		end
 
 		it 'should return false when combination of some letters in the word and other letters are in the guessed array' do
-			h.guessed = ["t", "e", "a", "q"]
-			expect(h.win?).to eq false
+			hangman.guessed = ["t", "e", "a", "q"]
+			expect(hangman.win?).to eq false
 		end
 
 		it 'should return true when all letters from the word and some others are in the guessed array' do
-			h.guessed = ["t", "e", "s", "q", "m"]
-			expect(h.win?).to eq true
+			hangman.guessed = ["t", "e", "s", "q", "m"]
+			expect(hangman.win?).to eq true
 		end
 	end
 
-	describe 'check_lose?' do
+	describe 'lose?' do
 		it 'should return true when 0 lives' do
-			h.guessed = ["a","b","c","d","f","g","h","i","j","k"]
-			expect(h.lose?).to eq true
+			hangman.guessed = ["a","b","c","d","f","g","h","i","j","k"]
+			expect(hangman.lose?).to eq true
 		end
 
 		it 'should return false when lives greater than 0' do
-			h.guessed = ["a","b","c","d"]
-			expect(h.lose?).to eq false
+			hangman.guessed = ["a","b","c","d"]
+			expect(hangman.lose?).to eq false
 		end
 	end
 
-	
 
 	describe 'cur_guess' do
 		it 'should have nil elements at any point where the letter in the word is not in guessed' do
-			h.guessed = Array.new
-			expect(h.cur_guess).to eq [nil, nil, nil, nil]
+			hangman.guessed = Array.new
+			expect(hangman.cur_guess).to eq [nil, nil, nil, nil]
 
-			h.guessed = [nil, "e", nil, nil]
-			expect(h.cur_guess).to eq [nil, "e", nil, nil]
+			hangman.guessed = [nil, "e", nil, nil]
+			expect(hangman.cur_guess).to eq [nil, "e", nil, nil]
 		end
 
 		it 'should have char elements at any point where the letter in the word is in guessed' do
-			h.guessed = ["t", "s", "e"]
-			expect(h.cur_guess).to eq ["t", "e", "s", "t"]
+			hangman.guessed = ["t", "s", "e"]
+			expect(hangman.cur_guess).to eq ["t", "e", "s", "t"]
 		end
 	end
 
 	describe 'lives_remaining' do
 		it 'should equal total lives minus number of guesses not in the word' do
-			h.guessed = ["t", "s", "e"]
-			expect(h.lives_remaining).to eq 10
+			hangman.guessed = ["t", "s", "e"]
+			expect(hangman.lives_remaining).to eq 10
 
-			h.guessed = ["t", "s", "q", "w"]
-			expect(h.lives_remaining).to eq 8
+			hangman.guessed = ["t", "s", "q", "w"]
+			expect(hangman.lives_remaining).to eq 8
 
-			h.guessed = Array.new
-			expect(h.lives_remaining).to eq 10
+			hangman.guessed = Array.new
+			expect(hangman.lives_remaining).to eq 10
 
-			h.guessed = ["a","b","c","d","e","f"]
-			expect(h.lives_remaining).to eq 5
+			hangman.guessed = ["a","b","c","d","e","f"]
+			expect(hangman.lives_remaining).to eq 5
 		end
 	end
-end
-
-describe ConsoleIO do
-
 end

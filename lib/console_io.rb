@@ -15,7 +15,7 @@ class ConsoleIO
     puts "Lives remaining: "
     puts lives
     puts "Letters guessed: "
-    guessed.each{|x| print x + " " unless x == nil}
+    guessed.each{ |x| print x + " " unless x == nil }
     puts ""
   end
 
@@ -25,14 +25,12 @@ class ConsoleIO
 
   def win(word)
     puts "You win!"
-    puts "The word was "<<word
-    true
+    puts "The word was #{word}"
   end
 
   def lose(word)
     puts "You lose!"
-    puts "The word was "<<word
-    true
+    puts "The word was #{word}"
   end
   def get
     gets.chomp

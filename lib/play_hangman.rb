@@ -16,10 +16,10 @@ class PlayHangman
 					break if result == ""
 					io_controller.error(result)
 				end
-				break if h.check_lose?
-				break if h.check_win?
+				break if h.lose?
+				break if h.win?
 			end
-			if h.check_win?
+			if h.win?
 				io_controller.win(h.word)
 			else
 				io_controller.lose(h.word)
@@ -29,8 +29,8 @@ class PlayHangman
 	end
 
 	def random_word(words)
-    	words[rand(words.size)].chomp
-  	end
+		words[rand(words.size)].chomp
+	end
 
 	
 	def create_word_array
