@@ -51,4 +51,8 @@ class ConsoleIO
     gets.chomp
   end
 
+  def error(msg)
+    puts msg
+  end
+
 end

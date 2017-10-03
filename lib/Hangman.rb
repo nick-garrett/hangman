@@ -1,10 +1,9 @@
 require_relative 'console_io'
 class Hangman
-  @TOTAL_LIVES = 10
+  attr_accessor :word, :guessed
+  attr_reader :io_controller
 
-  def initialize(word = random_word(create_word_array), io_controller = ConsoleIO.new, lives = 10)
-    @io_controller = io_controller
-    @io_controller.new_game 
+  def initialize(word = random_word(create_word_array), lives = 10)
     @guessed = Array.new
     @word = word
     @TOTAL_LIVES = lives
@@ -16,46 +15,33 @@ class Hangman
     w
   end
 
-  def new_game?
-    @io_controller.new_game?
-  end
-
-  def make_guess
-    @io_controller.enter_guess while !check_guess (@io_controller.get.downcase)
-  end
-
   def check_guess (guess)
-    if @guessed.include? guess
-      @io_controller.already_guessed 
-      return false
+    if guessed.include? guess
+      return "Already guessed, try again"
     elsif guess.size > 1
-      @io_controller.mult_letter 
-      return false
+      return "Please only input one letter, try again"
     elsif !guess.match(/^[[:alpha:]]$/)
-      @io_controller.non_alpha
-      return false
+      return "Please only input letters"
     end
-    @guessed.push guess
-    return true
+    guessed.push guess
+    return ""
   end
 
   def check_win?
-    return @io_controller.win(@word) if !(cur_guess.include? nil)
-    false
+    !(cur_guess.include? nil)
   end
 
   def check_lose?
-    return @io_controller.lose(@word) if lives_remaining == 0
-    false
+    lives_remaining == 0
   end
 
   def lives_remaining
-    @TOTAL_LIVES - @guessed.count{|x|!@word.include? x}
+    @TOTAL_LIVES - guessed.count{|x|!word.include? x}
   end
 
   def cur_guess
-    to_return = Array.new(@word.size)
-    (0 ... @word.size).each{|i| to_return[i] = @word[i] if @guessed.include? @word[i]}
+    to_return = Array.new(word.size)
+    (0 ... word.size).each{|i| to_return[i] = word[i] if guessed.include? word[i]}
     to_return
   end
 
@@ -63,23 +49,4 @@ class Hangman
     words[rand(words.size)].chomp
   end
 
-
-  def game_loop
-    while true do
-      @io_controller.status(cur_guess, lives_remaining, @guessed)
-      make_guess
-      break if check_lose?
-      break if check_win?
-    end
-  end
-
-
-#Methods only used for testing
-  def set_word(word)
-    @word = word
-  end
-
-  def set_guessed(guessed)
-    @guessed = guessed
-  end
 end

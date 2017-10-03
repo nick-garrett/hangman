@@ -35,46 +35,46 @@ describe Hangman do
 
 	describe 'check_win?' do
 		it 'should return true when all of the letters in the word are also in the guessed array' do
-			h.set_word(word)
-			h.set_guessed ["t", "e", "s"]
+			h.word = word 
+			h.guessed = ["t", "e", "s"]
 			expect(h.check_win?).to eq true
 		end
 
 		it 'should return false when some of the letters in the word are in the guessed array' do
-			h.set_word(word)
-			h.set_guessed ["t", "e"]
+			h.word = word 
+			h.guessed = ["t", "e"]
 			expect(h.check_win?).to eq false
 		end
 
 		it 'should return false when no letters in the word are in the guessed array' do
-			h.set_word(word)
-			h.set_guessed  Array.new
+			h.word = word 
+			h.guessed = Array.new
 			expect(h.check_win?).to eq false
 		end
 
 		it 'should return false when combination of some letters in the word and other letters are in the guessed array' do
-			h.set_word(word)
-			h.set_guessed  ["t", "e", "a", "q"]
+			h.word = word 
+			h.guessed = ["t", "e", "a", "q"]
 			expect(h.check_win?).to eq false
 		end
 
 		it 'should return true when all letters from the word and some others are in the guessed array' do
-			h.set_word(word)
-			h.set_guessed  ["t", "e", "s", "q", "m"]
+			h.word = word
+			h.guessed = ["t", "e", "s", "q", "m"]
 			expect(h.check_win?).to eq true
 		end
 	end
 
 	describe 'check_lose?' do
 		it 'should return true when 0 lives' do
-			h.set_word(word)
-			h.set_guessed ["a","b","c","d","f","g","h","i","j","k"]
+			h.word = word 
+			h.guessed = ["a","b","c","d","f","g","h","i","j","k"]
 			expect(h.check_lose?).to eq true
 		end
 
 		it 'should return false when lives greater than 0' do
-			h.set_word(word)
-			h.set_guessed  ["a","b","c","d"]
+			h.word = word 
+			h.guessed = ["a","b","c","d"]
 			expect(h.check_lose?).to eq false
 		end
 	end
@@ -101,35 +101,35 @@ describe Hangman do
 
 	describe 'cur_guess' do
 		it 'should have nil elements at any point where the letter in the word is not in guessed' do
-			h.set_word(word)
-			h.set_guessed  Array.new
+			h.word = word 
+			h.guessed = Array.new
 			expect(h.cur_guess).to eq [nil, nil, nil, nil]
 
-			h.set_guessed  [nil, "e", nil, nil]
+			h.guessed = [nil, "e", nil, nil]
 			expect(h.cur_guess).to eq [nil, "e", nil, nil]
 		end
 
 
 		it 'should have char elements at any point where the letter in the word is in guessed' do
-			h.set_word(word)
-			h.set_guessed ["t", "s", "e"]
+			h.word = word 
+			h.guessed = ["t", "s", "e"]
 			expect(h.cur_guess).to eq ["t", "e", "s", "t"]
 		end
 	end
 
 	describe 'lives_remaining' do
 		it 'should equal total lives minus number of guesses not in the word' do
-			h.set_word(word)
-			h.set_guessed  ["t", "s", "e"]
+			h.word = word 
+			h.guessed = ["t", "s", "e"]
 			expect(h.lives_remaining).to eq 10
 
-			h.set_guessed ["t", "s", "q", "w"]
+			h.guessed = ["t", "s", "q", "w"]
 			expect(h.lives_remaining).to eq 8
 
-			h.set_guessed  Array.new
+			h.guessed = Array.new
 			expect(h.lives_remaining).to eq 10
 
-			h.set_guessed  ["a","b","c","d","e","f"]
+			h.guessed = ["a","b","c","d","e","f"]
 			expect(h.lives_remaining).to eq 5
 		end
 	end
