@@ -1,33 +1,35 @@
 require_relative '../lib/hangman'
 require_relative '../lib/console_io'
-require_relative '../bin/play_hangman'
+require_relative '../lib/play_hangman'
 
-# describe PlayHangman do
-# 	describe 'create_word_array' do
-# 		it 'should have 370101 elements' do
-# 			expect(PlayHangman.new.create_word_array.size).to eq 370101
-# 		end
-# 	end
-# 	describe 'random_word' do
-# 		it 'should choose the word "test"' do
-# 			words = [word]
-# 			w = h.random_word(words)
-# 			expect(w).to eq "test"
-# 		end
+describe PlayHangman do
+	let(:p) {PlayHangman.new}
+	describe 'create_word_array' do
+		it 'should have 370101 elements' do
+			expect(p.create_word_array.size).to eq 370101
+		end
+	end
+	describe 'random_word' do
+		let(:word) { "test"}
+		it 'should choose the word "test"' do
+			words = [word]
+			w = p.random_word(words)
+			expect(w).to eq "test"
+		end
 
-# 		it "should strip newline character from the word" do
-# 			words = ["test\n"]
-# 			w = h.random_word(words)
-# 			expect(w.include? "\n").to eq false
-# 		end
+		it "should strip newline character from the word" do
+			words = ["test\n"]
+			w = p.random_word(words)
+			expect(w.include? "\n").to eq false
+		end
 
-# 		it "should choose one of the words from the array" do
-# 			words = %w(one two three four)
-# 			word = h.random_word(words)
-# 			expect(words.include? word).to eq true
-# 		end
-# 	end
-# end
+		it "should choose one of the words from the array" do
+			words = %w(one two three four)
+			word = p.random_word(words)
+			expect(words.include? word).to eq true
+		end
+	end
+end
 
 describe Hangman do
 	let(:h) { Hangman.new("test") }
@@ -73,7 +75,7 @@ describe Hangman do
 
 		it 'should return false when no letters in the word are in the guessed array' do
 			h.word = word 
-			h.guessed = Array.new
+			h.guessed = Array.new 
 			expect(h.check_win?).to eq false
 		end
 

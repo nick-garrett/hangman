@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
-require_relative 'hangman'
-require_relative 'console_io'
+require_relative '../lib/hangman'
+require_relative '../lib/console_io'
 class PlayHangman
 
 	def play
