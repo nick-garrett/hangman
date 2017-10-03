@@ -1,4 +1,0 @@
-To be completed:
- --> rspec???? need to do some research on how to do this
- --> display letters guessed that are incorrect --- displays all guessed letters, should I change this??
- --> Feature for enabling capital letters in words?? user wouldn't need to enter capital letter, but would display as capital letter in cur_guess if required
