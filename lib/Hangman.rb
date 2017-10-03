@@ -2,14 +2,12 @@ require_relative 'console_io'
 class Hangman
   @TOTAL_LIVES = 10
 
-  def initialize(word = nil, io_controller = nil)
+  def initialize(word = random_word(create_word_array), io_controller = ConsoleIO.new, lives = 10)
     @io_controller = io_controller
-    @io_controller ||= ConsoleIO.new
     @io_controller.new_game 
     @guessed = Array.new
     @word = word
-    @word ||= random_word(create_word_array)
-    @TOTAL_LIVES = 10
+    @TOTAL_LIVES = lives
   end
 
   def create_word_array
