@@ -28,9 +28,10 @@ class PlayHangman
   end
 
   def valid_guess
+    guess = ''
     loop do
       io_controller.enter_guess
-      guess = io_controller.get_input
+      guess = io_controller.input
       result = hangman.check_guess(guess)
       break if result == ''
       io_controller.error(result)
