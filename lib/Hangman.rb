@@ -9,7 +9,7 @@ class Hangman
     @total_lives = lives
   end
 
-  def check_guess(guess)
+  def guess_error?(guess)
     if guessed.include? guess
       'Already guessed, try again'
     elsif guess.size > 1
@@ -17,27 +17,28 @@ class Hangman
     elsif !guess.match(/^[[:alpha:]]$/)
       'Please only input letters'
     else
-      ''
+      nil
     end
   end
 
-  def win?
-    !cur_guess.include? nil
+  def guessed_add(char)
+    guessed.push char
   end
 
-  def lose?
+  def won?
+    !guess_state.include? nil
+  end
+
+  def lost?
     lives_remaining.zero?
   end
 
   def lives_remaining
     total_lives - guessed.count { |x| !word.include?(x) }
+    total_lives - (guessed - word.chars).count
   end
 
-  def cur_guess
-    guess_state = Array.new(word.size)
-    (0...word.size).each do |i|
-      guess_state[i] = word[i] if guessed.include? word[i]
-    end
-    guess_state
+  def guess_state
+    word.chars.map {|x| x if guessed.include? x }
   end
 end

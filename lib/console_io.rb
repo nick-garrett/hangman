@@ -20,16 +20,17 @@ class ConsoleIO
     puts ''
   end
 
-  def enter_guess
+  def guess_prompt
     puts 'Enter new guess: '
+    input
   end
 
-  def win(word)
+  def won!(word)
     puts 'You win!'
     puts "The word was #{word}"
   end
 
-  def lose(word)
+  def lost!(word)
     puts 'You lose!'
     puts "The word was #{word}"
   end

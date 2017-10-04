@@ -1,10 +1,5 @@
 require_relative '../lib/play_hangman'
 
-describe 'create_word_array' do
-  it 'should have 370101 elements' do
-    expect(PlayHangman.new.create_word_array.size).to eq 370_101
-  end
-end
 describe 'random_word' do
   it 'should choose the word "test"' do
     words = ['test']

@@ -9,24 +9,24 @@ describe Hangman do
 
   describe 'check_guess' do
     it 'should not accept multiple characters' do
-      expect(hangman.check_guess('aa')).not_to eq ''
+      expect(hangman.check_guess('aa')).not_to eq nil
     end
 
     it 'should not accept guesses already made' do
-      hangman.check_guess 'a'
-      expect(hangman.check_guess('a')).not_to eq ''
+      hangman.guessed.push 'a'
+      expect(hangman.check_guess('a')).not_to eq nil
     end
 
     it 'should not accept non-alphabetic guesses' do
-      expect(hangman.check_guess('1')).not_to eq ''
-      expect(hangman.check_guess('!')).not_to eq ''
-      expect(hangman.check_guess(' ')).not_to eq ''
+      expect(hangman.check_guess('1')).not_to eq nil
+      expect(hangman.check_guess('!')).not_to eq nil
+      expect(hangman.check_guess(' ')).not_to eq nil
     end
 
     it 'should accept other guesses' do
-      expect(hangman.check_guess('a')).to eq ''
-      expect(hangman.check_guess('b')).to eq ''
-      expect(hangman.check_guess('c')).to eq ''
+      expect(hangman.check_guess('a')).to eq nil
+      expect(hangman.check_guess('b')).to eq nil
+      expect(hangman.check_guess('c')).to eq nil
     end
   end
 
@@ -63,31 +63,31 @@ describe Hangman do
   end
 
   describe 'lose?' do
-    it 'should return true when 0 lives' do
+    it 'should return true when there are 0 lives' do
       hangman.guessed = %w[a b c d f g h i j k]
       expect(hangman.lose?).to eq true
     end
 
-    it 'should return false when lives greater than 0' do
+    it 'should return false when lives are greater than 0' do
       hangman.guessed = %w[a b c d]
       expect(hangman.lose?).to eq false
     end
   end
 
-  describe 'cur_guess' do
+  describe 'guess_state' do
     it 'should have nil elements at any point where the letter \
     in the word is not in guessed' do
       hangman.guessed = []
-      expect(hangman.cur_guess).to eq [nil, nil, nil, nil]
+      expect(hangman.guess_state).to eq [nil, nil, nil, nil]
 
-      hangman.guessed = [nil, 'e', nil, nil]
-      expect(hangman.cur_guess).to eq [nil, 'e', nil, nil]
+      hangman.guessed = ['e']
+      expect(hangman.guess_state).to eq [nil, 'e', nil, nil]
     end
 
     it 'should have char elements at any point where the \
     etter in the word is in guessed' do
       hangman.guessed = %w[t s e]
-      expect(hangman.cur_guess).to eq %w[t e s t]
+      expect(hangman.guess_state).to eq %w[t e s t]
     end
   end
 
@@ -102,7 +102,7 @@ describe Hangman do
       hangman.guessed = []
       expect(hangman.lives_remaining).to eq 10
 
-      hangman.guessed = %w[a b c d e f]
+      hangman.guessed = %w[a b c d f]
       expect(hangman.lives_remaining).to eq 5
     end
   end
