@@ -9,9 +9,9 @@ class ConsoleIO
     input == 'y'
   end
 
-  def status(cur_guess, lives_left, guessed_letters)
+  def status(cur_guessed_word, lives_left, guessed_letters)
     puts 'Current guess: '
-    cur_guess.each { |x| print x.nil? ? '_' : x }
+    cur_guessed_word.each { |x| print x.nil? ? '_' : x }
     puts ''
     puts 'Lives remaining: '
     puts lives_left
@@ -25,12 +25,12 @@ class ConsoleIO
     input
   end
 
-  def won!(word)
+  def won(word)
     puts 'You win!'
     puts "The word was #{word}"
   end
 
-  def lost!(word)
+  def lost(word)
     puts 'You lose!'
     puts "The word was #{word}"
   end
@@ -39,7 +39,7 @@ class ConsoleIO
     gets.chomp
   end
 
-  def error(msg)
+  def display_error(msg)
     puts msg
   end
 end

@@ -8,7 +8,7 @@ class PlayHangman
     loop do
       new_game
       game_loop
-      hangman.won? ? won! : lost!
+      hangman.won? ? won : lost
       break unless io_controller.new_game?
     end
   end
@@ -20,29 +20,29 @@ class PlayHangman
 
   def game_loop
     until hangman.lost? || hangman.won?
-      io_controller.status(hangman.guess_state, hangman.lives_remaining,
+      io_controller.status(hangman.cur_guessed_word, hangman.lives_remaining,
                            hangman.guessed)
       make_guess
     end
   end
 
-  def lost!
-    io_controller.lost!(hangman.word)
+  def lost
+    io_controller.lost(hangman.word)
   end
 
-  def won!
-    io_controller.won!(hangman.word)
+  def won
+    io_controller.won(hangman.word)
   end
 
   def make_guess
-    guess = ''
+    guess = nil
     loop do
       guess = io_controller.guess_prompt
-      result = hangman.guess_error?(guess)
-      break unless result
-      io_controller.error(result)
+      error = hangman.validate_guess(guess)
+      break unless error
+      io_controller.display_error(error)
     end
-    hangman.guessed_add guess
+    hangman.add_to_guessed guess
   end
 
   def random_word(words)
