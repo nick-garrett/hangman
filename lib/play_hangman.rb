@@ -22,25 +22,25 @@ class PlayHangman
     until hangman.lost? || hangman.won?
       io_controller.status(hangman.cur_guessed_word, hangman.lives_remaining,
                            hangman.guessed)
-      make_guess
+      make_valid_guess
     end
   end
 
   def lost
-    io_controller.lost(hangman.word)
+    io_controller.lost(hangman.word.join)
   end
 
   def won
-    io_controller.won(hangman.word)
+    io_controller.won(hangman.word.join)
   end
 
-  def make_guess
-    guess = nil
+  def make_valid_guess
+    guess = io_controller.guess_prompt
     loop do
-      guess = io_controller.guess_prompt
       error = hangman.validate_guess(guess)
       break unless error
       io_controller.display_error(error)
+      guess = io_controller.guess_prompt
     end
     hangman.add_to_guessed guess
   end
@@ -50,10 +50,8 @@ class PlayHangman
   end
 
   def create_word_array
-    word_array = []
     path = File.dirname(__FILE__)
     file = path << '/dictionary.txt'
-    File.foreach(file) { |line| word_array << line }
-    word_array
+    File.foreach(file).map { |line| line }
   end
 end

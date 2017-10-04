@@ -1,11 +1,11 @@
 # :nodoc:
 class Hangman
-  attr_accessor :word, :guessed
-  attr_reader :io_controller, :total_lives
+  attr_accessor :guessed
+  attr_reader :word, :io_controller, :total_lives
 
   def initialize(word, lives = 10)
     @guessed = []
-    @word = word
+    @word = word.chars
     @total_lives = lives
   end
 
@@ -26,7 +26,7 @@ class Hangman
   end
 
   def won?
-    (word.chars - guessed).count.zero?
+    (word - guessed).count.zero?
   end
 
   def lost?
@@ -34,10 +34,10 @@ class Hangman
   end
 
   def lives_remaining
-    total_lives - (guessed - word.chars).count
+    total_lives - (guessed - word).count
   end
 
   def cur_guessed_word
-    word.chars.map { |x| x if guessed.include? x }
+    word.map { |x| x if guessed.include? x }
   end
 end
