@@ -5,17 +5,17 @@ class ConsoleIO
 
   def new_game?
     puts "Do you want to play again? (y/n)"
-    return get_input == "y"
+    get_input == "y"
   end
 
-  def status (cur_guess, lives_left, guessed_letters)
+  def status(cur_guess, lives_left, guessed_letters)
     puts "Current guess: "
-    cur_guess.each{ |x| print x == nil ? "_" : x }
+    cur_guess.each { |x| print x.nil? ? "_" : x }
     puts ""
     puts "Lives remaining: "
     puts lives_left
     puts "Letters guessed: "
-    guessed_letters.each{ |x| print x + " " unless x == nil }
+    guessed_letters.each { |x| print x + " " unless x.nil? }
     puts ""
   end
 
