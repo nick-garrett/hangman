@@ -5,18 +5,18 @@ class ConsoleIO
   end
 
   def new_game?
-    puts 'Do you want to play again? (y/n)'
+    puts 'Do you want to play again?'
     input == 'y'
   end
 
-  def status(cur_guessed_word, lives_left, guessed_letters)
+  def status(masked_word, lives_left, guessed_letters)
     puts 'Current guess: '
-    cur_guessed_word.each { |x| print x.nil? ? '_' : x }
+    masked_word.each { |x| print x.nil? ? '_' : x }
     puts ''
     puts 'Lives remaining: '
     puts lives_left
     puts 'Letters guessed: '
-    guessed_letters.each { |x| print x + ' ' unless x.nil? }
+    guessed_letters.each { |x| print x + ' ' }
     puts ''
   end
 
@@ -25,21 +25,18 @@ class ConsoleIO
     input
   end
 
-  def won(word)
-    puts 'You win!'
-    puts "The word was #{word}"
-  end
-
-  def lost(word)
-    puts 'You lose!'
-    puts "The word was #{word}"
-  end
-
-  def input
-    gets.chomp
+  def end_message(msg, word)
+    puts msg
+    puts "The word was #{word.join}"
   end
 
   def display_error(msg)
     puts msg
+  end
+
+  private
+
+  def input
+    $stdin.gets.chomp.downcase
   end
 end

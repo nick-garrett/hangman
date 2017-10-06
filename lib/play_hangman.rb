@@ -1,57 +1,50 @@
-require_relative '../lib/hangman'
-require_relative '../lib/console_io'
+require_relative 'hangman'
+require_relative 'console_io'
 # :nodoc:
 class PlayHangman
-  attr_reader :io_controller, :hangman
+  attr_reader :ui, :hangman
 
   def play
     loop do
-      new_game
+      new_game!(ConsoleIO.new, Hangman.new(@word || Hangman.random_word(Hangman.create_word_array)))
       game_loop
-      hangman.won? ? won : lost
-      break unless io_controller.new_game?
+      end_message
+      break unless new_game?
     end
   end
 
-  def new_game
-    @io_controller = ConsoleIO.new
-    @hangman = Hangman.new(random_word(create_word_array))
+  private
+
+  def new_game?
+    ui.new_game?
+  end
+
+  def new_game!(ui, hangman)
+    @ui = ui
+    @hangman = hangman
+    ui.new_game
   end
 
   def game_loop
-    until hangman.lost? || hangman.won?
-      io_controller.status(hangman.cur_guessed_word, hangman.lives_remaining,
-                           hangman.guessed)
-      make_valid_guess
+    until hangman.game_over?
+      ui.status(hangman.masked_word, hangman.lives_remaining,
+                hangman.guessed)
+      make_guess
     end
   end
 
-  def lost
-    io_controller.lost(hangman.word.join)
+  def end_message
+    ui.end_message(hangman.end_message, hangman.word)
   end
 
-  def won
-    io_controller.won(hangman.word.join)
+  def make_guess
+    guess = ui.guess_prompt
+    error = hangman.validate_guess(guess)
+    error ? handle_guess_error(error) : hangman.add_to_guessed(guess)
   end
 
-  def make_valid_guess
-    guess = io_controller.guess_prompt
-    loop do
-      error = hangman.validate_guess(guess)
-      break unless error
-      io_controller.display_error(error)
-      guess = io_controller.guess_prompt
-    end
-    hangman.add_to_guessed guess
-  end
-
-  def random_word(words)
-    words.sample.chomp
-  end
-
-  def create_word_array
-    path = File.dirname(__FILE__)
-    file = path << '/dictionary.txt'
-    File.foreach(file).map { |line| line }
+  def handle_guess_error(error)
+    ui.display_error(error)
+    make_guess
   end
 end

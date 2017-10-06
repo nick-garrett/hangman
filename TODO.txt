@@ -1,0 +1,3 @@
+update specs:
+-> write console_io specs
+-> rewrite lives_remaining spec to check relative changes, rather than absolute changes
